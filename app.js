@@ -1,6 +1,10 @@
 const { generateOutputFile, readInputFile } = require("./file.service");
 const _ = require("lodash");
-const uniqueEmployeeField = require("./constants");
+const {
+  uniqueEmployeeField,
+  employeeExcelHeaders,
+  lastYearExcelHeaders,
+} = require("./constants");
 
 // Assign secret children to employees based on constraints
 function assignSecretChildren(employeeData, previousYearSecretSanta) {
@@ -54,6 +58,11 @@ function isPreviousChild(employee, child, previousYearSecretSanta) {
   );
 }
 
+function checkMandatoryHeaders(mandatoryHeaders, excelDataRow) {
+  const keys = Object.keys(excelDataRow);
+  return mandatoryHeaders.every((header) => keys.includes(header));
+}
+
 //Function to generate Secret Santa Output file
 async function getSecretSantaGameFile(
   employeeFile,
@@ -68,12 +77,20 @@ async function getSecretSantaGameFile(
         "Only one employee present data not enough to map secret child."
       );
     }
+    if (!checkMandatoryHeaders(employeeExcelHeaders, employeeData[0])) {
+      throw new Error("Invalid Headers in Employee Excel");
+    }
 
     const uniqueEmployeeData = _.uniqBy(employeeData, uniqueEmployeeField);
 
     const previousYearSecretSanta = await readInputFile(
       previousYearSecretSantaFile
     );
+    if (
+      !checkMandatoryHeaders(lastYearExcelHeaders, previousYearSecretSanta[0])
+    ) {
+      throw new Error("Invalid Headers in Last Year Assignment Excel");
+    }
 
     const secretSantaAssignments = assignSecretChildren(
       uniqueEmployeeData,
