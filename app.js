@@ -105,7 +105,7 @@ async function getSecretSantaGameFile(
   }
 }
 
-const employeeFile = "employee-excel/Employee-List Duplicates.xlsx";
+const employeeFile = "employee-excel/Employee-List.xlsx";
 const previousYearSecretSantaFile =
   "last-year-assignment-excel/Secret-Santa-Game-Result-2023.xlsx";
 const outputFile = "output-excel/Secret-Santa-Game-Result-2024.xlsx";
