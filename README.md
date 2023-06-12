@@ -18,3 +18,7 @@ Conditions Handled -
     2. Empty Excels.
     3. Employee Excel with only one employee.
     4. Headers for both the CSV should be valid.
+
+Future Scope -
+
+    1.Check falsy/empty/null values for each row cell of email id or name.
